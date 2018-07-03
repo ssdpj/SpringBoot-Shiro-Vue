@@ -45,7 +45,13 @@ public class AjaxPermissionsAuthorizationFilter extends BasicHttpAuthenticationF
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        executeLogin(request, response);
+        if (isLoginAttempt(request, response)) {
+            try {
+                executeLogin(request, response);
+            } catch (Exception e) {
+             return   false;
+            }
+        }
         return true;
     }
 
