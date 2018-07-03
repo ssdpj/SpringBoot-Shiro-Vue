@@ -6,9 +6,8 @@ import com.heeexy.example.service.LoginService;
 import com.heeexy.example.service.PermissionService;
 import com.heeexy.example.util.CommonUtil;
 import com.heeexy.example.util.constants.Constants;
+import com.heeexy.example.util.jwt.JWTUtil;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -40,14 +39,13 @@ public class LoginServiceImpl implements LoginService {
     public JSONObject authLogin(JSONObject jsonObject) {
         String username = jsonObject.getString("username");
         String password = jsonObject.getString("password");
+        JSONObject user = loginDao.getUser(username, password);
         JSONObject returnData = new JSONObject();
-        Subject currentUser = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        try {
-            currentUser.login(token);
-            returnData.put("result", "success");
-        } catch (AuthenticationException e) {
+        if (user == null) {
             returnData.put("result", "fail");
+        } else {
+            returnData.put("result", "success");
+            returnData.put("token", JWTUtil.sign(username, password));
         }
         return CommonUtil.successJson(returnData);
     }
@@ -84,16 +82,12 @@ public class LoginServiceImpl implements LoginService {
 
     /**
      * 退出登录
+     * 应该redis内删除用户的登录信息
      *
      * @return
      */
     @Override
     public JSONObject logout() {
-        try {
-            Subject currentUser = SecurityUtils.getSubject();
-            currentUser.logout();
-        } catch (Exception e) {
-        }
         return CommonUtil.successJson();
     }
 }
