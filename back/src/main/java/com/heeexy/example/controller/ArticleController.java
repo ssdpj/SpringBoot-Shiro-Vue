@@ -3,7 +3,9 @@ package com.heeexy.example.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.service.ArticleService;
 import com.heeexy.example.util.CommonUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,8 @@ public class ArticleController {
     @RequiresPermissions("article:list")
     @GetMapping("/listArticle")
     public JSONObject listArticle(HttpServletRequest request) {
+        Subject s = SecurityUtils.getSubject();
+        String b = s.getPrincipal().toString();
         return articleService.listArticle(CommonUtil.request2Json(request));
     }
 

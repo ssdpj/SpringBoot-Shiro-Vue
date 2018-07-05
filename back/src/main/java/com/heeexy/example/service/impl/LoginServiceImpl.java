@@ -9,7 +9,6 @@ import com.heeexy.example.util.constants.Constants;
 import com.heeexy.example.util.jwt.JWTUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,9 @@ public class LoginServiceImpl implements LoginService {
             returnData.put("result", "fail");
         } else {
             returnData.put("result", "success");
-            returnData.put("token", JWTUtil.sign(username, password));
+            String value = JWTUtil.sign(username);
+            logger.info("jwt:    " + value);
+            returnData.put("token", value);
         }
         return CommonUtil.successJson(returnData);
     }
@@ -69,13 +70,9 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public JSONObject getInfo() {
-        //从session获取用户信息
-        Session session = SecurityUtils.getSubject().getSession();
-        JSONObject userInfo = (JSONObject) session.getAttribute(Constants.SESSION_USER_INFO);
-        String username = userInfo.getString("username");
+        String username =  SecurityUtils.getSubject().getPrincipal().toString();
         JSONObject returnData = new JSONObject();
         JSONObject userPermission = permissionService.getUserPermission(username);
-        session.setAttribute(Constants.SESSION_USER_PERMISSION, userPermission);
         returnData.put("userPermission", userPermission);
         return CommonUtil.successJson(returnData);
     }

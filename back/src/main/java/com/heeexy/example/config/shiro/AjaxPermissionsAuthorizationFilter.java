@@ -3,6 +3,7 @@ package com.heeexy.example.config.shiro;
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.util.constants.ErrorEnum;
 import com.heeexy.example.util.jwt.JWTToken;
+import com.heeexy.example.util.jwt.JWTUtil;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -27,29 +28,26 @@ public class AjaxPermissionsAuthorizationFilter extends BasicHttpAuthenticationF
      */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
-        HttpServletRequest req = (HttpServletRequest) request;
-        String authorization = req.getHeader("Authorization");
-        return authorization != null;
-    }
-
-    @Override
-    protected boolean executeLogin(ServletRequest request, ServletResponse response) {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String authorization = httpServletRequest.getHeader("Authorization");
-        JWTToken token = new JWTToken(authorization);
-        // 提交给realm进行登入，如果错误他会抛出异常并被捕获
-        getSubject(request, response).login(token);
-        // 如果没有抛出异常则代表登入成功，返回true
-        return true;
+        String authzHeader = getAuthzHeader(request);
+        return authzHeader != null;
     }
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         if (isLoginAttempt(request, response)) {
             try {
-                executeLogin(request, response);
+                HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+                String authorization = httpServletRequest.getHeader("Authorization");
+                boolean b = JWTUtil.verify(authorization);
+                //登录后每次请求都走到这里，是因为没有session信息，
+                //每个request都在这带上一遍这个用户的信息，标明已登录，并且附上username
+
+                String username = JWTUtil.getUsername(authorization);
+                JWTToken token = new JWTToken(username);
+                getSubject(request, response).login(token);
+                return b;
             } catch (Exception e) {
-             return   false;
+                return false;
             }
         }
         return true;

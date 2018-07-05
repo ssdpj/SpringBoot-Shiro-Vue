@@ -1,15 +1,13 @@
-import Cookies from 'js-cookie'
-
-const LoginKey = 'hasLogin'
+const TokenKey = 'jwtToken'
 
 export function getToken() {
-  return Cookies.get(LoginKey);
+  return localStorage.getItem(TokenKey)
 }
 
-export function setToken() {
-  return Cookies.set(LoginKey, "1")
+export function setToken(token) {
+  return localStorage.setItem(TokenKey, token)
 }
 
 export function removeToken() {
-  return Cookies.remove(LoginKey)
+  return localStorage.removeItem(TokenKey)
 }

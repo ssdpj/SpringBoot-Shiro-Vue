@@ -3,6 +3,8 @@ package com.heeexy.example.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.service.LoginService;
 import com.heeexy.example.util.CommonUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +42,11 @@ public class LoginController {
      */
     @PostMapping("/getInfo")
     public JSONObject getInfo() {
+        Subject subject = SecurityUtils.getSubject();
+        String b = (String)subject.getPrincipal();
+
+
+
         return loginService.getInfo();
     }
 
