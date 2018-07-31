@@ -6,7 +6,9 @@
         <router-link v-else :to="item.redirect||item.path">{{item.meta.title}}</router-link>
       </el-breadcrumb-item>
     </transition-group>
+    <p>2222</p>
   </el-breadcrumb>
+  
 </template>
 
 <script>
