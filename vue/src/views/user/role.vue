@@ -18,7 +18,7 @@
       <el-table-column align="center" label="角色" prop="roleName" width="150"></el-table-column>
       <el-table-column align="center" label="用户">
         <template slot-scope="scope">
-          <div v-for="user in scope.row.users">
+          <div v-for="user in scope.row.users" :key='user.key'>
             <div v-text="user.nickname" style="display: inline-block;vertical-align: middle;"></div>
           </div>
         </template>
@@ -27,7 +27,7 @@
         <template slot-scope="scope">
           <el-tag v-if="scope.row.roleName==adminName" type="success">全部</el-tag>
           <div v-else>
-            <div v-for="menu in scope.row.menus" style="text-align: left">
+            <div v-for="menu in scope.row.menus" :key='menu.key' style="text-align: left">
               <span style="width: 100px;display: inline-block;text-align: right ">{{menu.menuName}}</span>
               <el-tag v-for="perm in menu.permissions" :key="perm.permissionName" v-text="perm.permissionName"
                       style="margin-right: 3px;"
@@ -52,19 +52,19 @@
     </el-table>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form class="small-space" :model="tempRole" label-position="left" label-width="100px"
-               style='width: 500px; margin-left:50px;'>
+               style='width: 600px; margin-left:50px;'>
         <el-form-item label="角色名称" required>
           <el-input type="text" v-model="tempRole.roleName" style="width: 250px;">
           </el-input>
         </el-form-item>
         <el-form-item label="菜单&权限" required>
-          <div v-for=" (menu,_index) in allPermission" :key="menu.menuName">
+          <div v-for=" (menu,_index) in allPermission" :key="menu.menuName" class="menu_item">
             <span style="width: 100px;display: inline-block;">
               <el-button :type="isMenuNone(_index)?'':(isMenuAll(_index)?'success':'primary')" size="mini"
                          style="width:80px;"
                          @click="checkAll(_index)">{{menu.menuName}}</el-button>
             </span>
-            <div style="display: inline-block;margin-left:20px;">
+            <div style="display: inline-block;margin-left:20px;" >
               <el-checkbox-group v-model="tempRole.permissions">
                 <el-checkbox v-for="perm in menu.permissions" :label="perm.id" @change="checkRequired(perm,_index)"
                              :key="perm.id">
@@ -117,6 +117,7 @@
           method: "get"
         }).then(data => {
           this.allPermission = data.list;
+          console.log(data.list)
         })
       },
       getList() {
@@ -329,5 +330,13 @@
 <style scoped>
   .requiredPerm {
     color: #ff0e13;
+  }
+  .menu_item{
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    margin: 10px 0;
+    padding: 0 10px;
+    height: 40px;
+    line-height: 40px;
   }
 </style>
