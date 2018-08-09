@@ -47,9 +47,9 @@
             <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <table tableName="t_user" domainObjectName="TUser">
+        <table tableName="task" domainObjectName="Task">
             <property name="useActualColumnNames" value="true"/>
-            <!--<columnOverride column="type" javaType="java.lang.Integer"/>-->
+            <columnOverride column="config" javaType="java.lang.String"/>
         </table>
 
 

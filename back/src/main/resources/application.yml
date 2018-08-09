@@ -5,4 +5,4 @@ spring:
       username: root
       password: yang531560
 mybatis:
-   mapperLocations: classpath:/tpl/*.xml
+   mapperLocations: classpath:/mapper/tpl/*.xml,classpath:/mapper/extend/*.xml

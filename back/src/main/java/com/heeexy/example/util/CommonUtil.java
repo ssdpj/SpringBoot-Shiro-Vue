@@ -17,7 +17,7 @@ import java.util.List;
 public class CommonUtil {
 
     /**
-     * 返回一个returnData为空对象的成功消息的json
+     * 返回一个data为空对象的成功消息的json
      *
      * @return
      */
@@ -28,14 +28,14 @@ public class CommonUtil {
     /**
      * 返回一个返回码为100的json
      *
-     * @param returnData json里的主要内容
+     * @param data json里的主要内容
      * @return
      */
-    public static JSONObject successJson(Object returnData) {
+    public static JSONObject successJson(Object data) {
         JSONObject resultJson = new JSONObject();
-        resultJson.put("returnCode", Constants.SUCCESS_CODE);
-        resultJson.put("returnMsg", Constants.SUCCESS_MSG);
-        resultJson.put("returnData", returnData);
+        resultJson.put("code", Constants.SUCCESS_CODE);
+        resultJson.put("msg", Constants.SUCCESS_MSG);
+        resultJson.put("data", data);
         return resultJson;
     }
 
@@ -47,9 +47,9 @@ public class CommonUtil {
      */
     public static JSONObject errorJson(ErrorEnum errorEnum) {
         JSONObject resultJson = new JSONObject();
-        resultJson.put("returnCode", errorEnum.getErrorCode());
-        resultJson.put("returnMsg", errorEnum.getErrorMsg());
-        resultJson.put("returnData", new JSONObject());
+        resultJson.put("code", errorEnum.getErrorCode());
+        resultJson.put("msg", errorEnum.getErrorMsg());
+        resultJson.put("data", new JSONObject());
         return resultJson;
     }
 
@@ -64,11 +64,11 @@ public class CommonUtil {
         int pageRow = requestJson.getIntValue("pageRow");
         int totalPage = getPageCounts(pageRow, totalCount);
         JSONObject result = successJson();
-        JSONObject returnData = new JSONObject();
-        returnData.put("list", list);
-        returnData.put("totalCount", totalCount);
-        returnData.put("totalPage", totalPage);
-        result.put("returnData", returnData);
+        JSONObject data = new JSONObject();
+        data.put("list", list);
+        data.put("totalCount", totalCount);
+        data.put("totalPage", totalPage);
+        result.put("data", data);
         return result;
     }
 
@@ -79,9 +79,9 @@ public class CommonUtil {
      */
     public static JSONObject successPage(List<JSONObject> list) {
         JSONObject result = successJson();
-        JSONObject returnData = new JSONObject();
-        returnData.put("list", list);
-        result.put("returnData", returnData);
+        JSONObject data = new JSONObject();
+        data.put("list", list);
+        result.put("data", data);
         return result;
     }
 
@@ -161,9 +161,9 @@ public class CommonUtil {
             }
             if (!StringTools.isNullOrEmpty(missCol)) {
                 jsonObject.clear();
-                jsonObject.put("returnCode", ErrorEnum.E_90003.getErrorCode());
-                jsonObject.put("returnMsg", "缺少必填参数:" + missCol.trim());
-                jsonObject.put("returnData", new JSONObject());
+                jsonObject.put("code", ErrorEnum.E_90003.getErrorCode());
+                jsonObject.put("msg", "缺少必填参数:" + missCol.trim());
+                jsonObject.put("data", new JSONObject());
                 throw new CommonJsonException(jsonObject);
             }
         }
