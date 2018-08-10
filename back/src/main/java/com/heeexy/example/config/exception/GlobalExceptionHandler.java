@@ -2,7 +2,7 @@ package com.heeexy.example.config.exception;
 
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.util.CommonUtil;
-import com.heeexy.example.util.constants.ErrorEnum;
+import com.heeexy.example.util.constants.CommonEnum;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
@@ -35,11 +35,11 @@ public class GlobalExceptionHandler {
             errorPosition = fileName + ":" + lineNumber;
         }
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("returnCode", ErrorEnum.E_400.getErrorCode());
-        jsonObject.put("returnMsg", ErrorEnum.E_400.getErrorMsg());
+        jsonObject.put("code", CommonEnum.FAILED.getCode());
+        jsonObject.put("msg", CommonEnum.FAILED.getMsg());
         JSONObject errorObject = new JSONObject();
         errorObject.put("errorLocation", e.toString() + "    错误位置:" + errorPosition);
-        jsonObject.put("returnData", errorObject);
+        jsonObject.put("data", errorObject);
         logger.error("异常", e);
         return jsonObject;
     }
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public JSONObject httpRequestMethodHandler() throws Exception {
-        return CommonUtil.errorJson(ErrorEnum.E_500);
+        return CommonUtil.errorJsonWithMessage("请求方式有误");
     }
 
     /**
@@ -79,7 +79,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UnauthorizedException.class)
     public JSONObject unauthorizedExceptionHandler() throws Exception {
-        return CommonUtil.errorJson(ErrorEnum.E_502);
+        return CommonUtil.errorJson(CommonEnum.AUTH_ERROR);
     }
 
     /**
@@ -91,6 +91,6 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UnauthenticatedException.class)
     public JSONObject unauthenticatedException() throws Exception {
-        return CommonUtil.errorJson(ErrorEnum.E_20011);
+        return CommonUtil.errorJson(CommonEnum.LOGIN_EXPIRED);
     }
 }

@@ -2,7 +2,7 @@ package com.heeexy.example.config.exception;
 
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.util.CommonUtil;
-import com.heeexy.example.util.constants.ErrorEnum;
+import com.heeexy.example.util.constants.CommonEnum;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class MainsiteErrorController implements ErrorController {
     @RequestMapping(value = ERROR_PATH)
     @ResponseBody
     public JSONObject handleError() {
-        return CommonUtil.errorJson(ErrorEnum.E_501);
+        return CommonUtil.errorJson(CommonEnum.ROUTE_ERROR);
     }
 
     @Override

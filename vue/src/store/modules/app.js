@@ -5,7 +5,8 @@ const app = {
     sidebar: {
       opened: !+Cookies.get('sidebarStatus')
     },
-    visitedViews: []
+    visitedViews: [],
+    language: Cookies.get('language') || 'en'
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
@@ -29,6 +30,10 @@ const app = {
         }
       }
       state.visitedViews.splice(index, 1)
+    },
+    SET_LANGUAGE: (state, language) => {
+      state.language = language
+      Cookies.set('language', language)
     }
   },
   actions: {
@@ -43,6 +48,9 @@ const app = {
         commit('DEL_VISITED_VIEWS', view)
         resolve([...state.visitedViews])
       })
+    },
+    setLanguage({ commit }, language) {
+      commit('SET_LANGUAGE', language)
     }
   }
 }

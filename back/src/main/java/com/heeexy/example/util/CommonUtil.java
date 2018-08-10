@@ -2,8 +2,8 @@ package com.heeexy.example.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.config.exception.CommonJsonException;
-import com.heeexy.example.util.constants.Constants;
-import com.heeexy.example.util.constants.ErrorEnum;
+import com.heeexy.example.response.BaseResponse;
+import com.heeexy.example.util.constants.CommonEnum;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -16,6 +16,22 @@ import java.util.List;
  */
 public class CommonUtil {
 
+    public static BaseResponse successRes() {
+        return BaseResponse.builder().code(CommonEnum.SUCCESS.getCode()).msg(CommonEnum.SUCCESS.getMsg()).build();
+    }
+
+    public static BaseResponse successRes(Object data) {
+        return BaseResponse.builder().code(CommonEnum.SUCCESS.getCode()).msg(CommonEnum.SUCCESS.getMsg()).data(data).build();
+    }
+
+    public static BaseResponse errorRes() {
+        return BaseResponse.builder().code(CommonEnum.FAILED.getCode()).msg(CommonEnum.FAILED.getMsg()).build();
+    }
+
+    public static BaseResponse errorRes(String msg) {
+        return BaseResponse.builder().code(CommonEnum.FAILED.getCode()).msg(msg).build();
+    }
+
     /**
      * 返回一个data为空对象的成功消息的json
      *
@@ -26,29 +42,55 @@ public class CommonUtil {
     }
 
     /**
-     * 返回一个返回码为100的json
+     * 返回一个成功的json
      *
      * @param data json里的主要内容
      * @return
      */
     public static JSONObject successJson(Object data) {
         JSONObject resultJson = new JSONObject();
-        resultJson.put("code", Constants.SUCCESS_CODE);
-        resultJson.put("msg", Constants.SUCCESS_MSG);
+        resultJson.put("code", CommonEnum.SUCCESS.getCode());
+        resultJson.put("msg", CommonEnum.SUCCESS.getMsg());
         resultJson.put("data", data);
+        return resultJson;
+    }
+
+    /**
+     * 返回一个失败的json
+     *
+     * @return
+     */
+    public static JSONObject errorJson() {
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("code", CommonEnum.FAILED.getCode());
+        resultJson.put("msg", CommonEnum.FAILED.getMsg());
+        resultJson.put("data", new JSONObject());
+        return resultJson;
+    }
+
+    /**
+     * 返回一个包含信息的失败json
+     * @param msg
+     * @return
+     */
+    public static JSONObject errorJsonWithMessage(String msg) {
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("code", CommonEnum.FAILED.getCode());
+        resultJson.put("msg", msg);
+        resultJson.put("data", new JSONObject());
         return resultJson;
     }
 
     /**
      * 返回错误信息JSON
      *
-     * @param errorEnum 错误码的errorEnum
+     * @param commonEnum commonEnum
      * @return
      */
-    public static JSONObject errorJson(ErrorEnum errorEnum) {
+    public static JSONObject errorJson(CommonEnum commonEnum) {
         JSONObject resultJson = new JSONObject();
-        resultJson.put("code", errorEnum.getErrorCode());
-        resultJson.put("msg", errorEnum.getErrorMsg());
+        resultJson.put("code", commonEnum.getCode());
+        resultJson.put("msg", commonEnum.getMsg());
         resultJson.put("data", new JSONObject());
         return resultJson;
     }
@@ -161,7 +203,7 @@ public class CommonUtil {
             }
             if (!StringTools.isNullOrEmpty(missCol)) {
                 jsonObject.clear();
-                jsonObject.put("code", ErrorEnum.E_90003.getErrorCode());
+                jsonObject.put("code", CommonEnum.PARAM_ERROR.getCode());
                 jsonObject.put("msg", "缺少必填参数:" + missCol.trim());
                 jsonObject.put("data", new JSONObject());
                 throw new CommonJsonException(jsonObject);

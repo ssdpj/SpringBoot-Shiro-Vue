@@ -6,19 +6,19 @@
     <result column="taskNo" property="taskNo" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="taskName" property="taskName" jdbcType="VARCHAR" />
-    <result column="desc" property="desc" jdbcType="VARCHAR" />
-    <result column="imgUrl" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="taskDesc" property="taskDesc" jdbcType="VARCHAR" />
     <result column="startDate" property="startDate" jdbcType="TIMESTAMP" />
     <result column="endDate" property="endDate" jdbcType="TIMESTAMP" />
     <result column="crtTime" property="crtTime" jdbcType="TIMESTAMP" />
     <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="INTEGER" />
     <result column="seller" property="seller" jdbcType="VARCHAR" />
     <result column="executor" property="executor" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="parentId" property="parentId" jdbcType="BIGINT" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.heeexy.example.model.Task" extends="BaseResultMap" >
+    <result column="imgUrl" property="imgUrl" jdbcType="LONGVARCHAR" />
     <result column="config" property="config" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -80,11 +80,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, taskNo, type, taskName, desc, imgUrl, startDate, endDate, crtTime, updateTime, 
-    creator, seller, executor, status, parentId
+    id, taskNo, type, taskName, taskDesc, startDate, endDate, crtTime, updateTime, creator, 
+    seller, executor, status, parentId
   </sql>
   <sql id="Blob_Column_List" >
-    config
+    imgUrl, config
   </sql>
   <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.heeexy.example.model.TaskExample" >
     select
@@ -136,16 +136,16 @@
   </delete>
   <insert id="insert" parameterType="com.heeexy.example.model.Task" >
     insert into task (id, taskNo, type, 
-      taskName, desc, imgUrl, 
-      startDate, endDate, crtTime, 
-      updateTime, creator, seller, 
-      executor, status, parentId, 
+      taskName, taskDesc, startDate, 
+      endDate, crtTime, updateTime, 
+      creator, seller, executor, 
+      status, parentId, imgUrl, 
       config)
     values (#{id,jdbcType=BIGINT}, #{taskNo,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{taskName,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
-      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{crtTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{seller,jdbcType=VARCHAR}, 
-      #{executor,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT}, 
+      #{taskName,jdbcType=VARCHAR}, #{taskDesc,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{crtTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=INTEGER}, #{seller,jdbcType=VARCHAR}, #{executor,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT}, #{imgUrl,jdbcType=LONGVARCHAR}, 
       #{config,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.heeexy.example.model.Task" >
@@ -163,11 +163,8 @@
       <if test="taskName != null" >
         taskName,
       </if>
-      <if test="desc != null" >
-        desc,
-      </if>
-      <if test="imgUrl != null" >
-        imgUrl,
+      <if test="taskDesc != null" >
+        taskDesc,
       </if>
       <if test="startDate != null" >
         startDate,
@@ -196,6 +193,9 @@
       <if test="parentId != null" >
         parentId,
       </if>
+      <if test="imgUrl != null" >
+        imgUrl,
+      </if>
       <if test="config != null" >
         config,
       </if>
@@ -213,11 +213,8 @@
       <if test="taskName != null" >
         #{taskName,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null" >
-        #{desc,jdbcType=VARCHAR},
-      </if>
-      <if test="imgUrl != null" >
-        #{imgUrl,jdbcType=VARCHAR},
+      <if test="taskDesc != null" >
+        #{taskDesc,jdbcType=VARCHAR},
       </if>
       <if test="startDate != null" >
         #{startDate,jdbcType=TIMESTAMP},
@@ -232,7 +229,7 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="creator != null" >
-        #{creator,jdbcType=VARCHAR},
+        #{creator,jdbcType=INTEGER},
       </if>
       <if test="seller != null" >
         #{seller,jdbcType=VARCHAR},
@@ -245,6 +242,9 @@
       </if>
       <if test="parentId != null" >
         #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=LONGVARCHAR},
       </if>
       <if test="config != null" >
         #{config,jdbcType=LONGVARCHAR},
@@ -272,11 +272,8 @@
       <if test="record.taskName != null" >
         taskName = #{record.taskName,jdbcType=VARCHAR},
       </if>
-      <if test="record.desc != null" >
-        desc = #{record.desc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.imgUrl != null" >
-        imgUrl = #{record.imgUrl,jdbcType=VARCHAR},
+      <if test="record.taskDesc != null" >
+        taskDesc = #{record.taskDesc,jdbcType=VARCHAR},
       </if>
       <if test="record.startDate != null" >
         startDate = #{record.startDate,jdbcType=TIMESTAMP},
@@ -291,7 +288,7 @@
         updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.creator != null" >
-        creator = #{record.creator,jdbcType=VARCHAR},
+        creator = #{record.creator,jdbcType=INTEGER},
       </if>
       <if test="record.seller != null" >
         seller = #{record.seller,jdbcType=VARCHAR},
@@ -304,6 +301,9 @@
       </if>
       <if test="record.parentId != null" >
         parentId = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.imgUrl != null" >
+        imgUrl = #{record.imgUrl,jdbcType=LONGVARCHAR},
       </if>
       <if test="record.config != null" >
         config = #{record.config,jdbcType=LONGVARCHAR},
@@ -319,17 +319,17 @@
       taskNo = #{record.taskNo,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       taskName = #{record.taskName,jdbcType=VARCHAR},
-      desc = #{record.desc,jdbcType=VARCHAR},
-      imgUrl = #{record.imgUrl,jdbcType=VARCHAR},
+      taskDesc = #{record.taskDesc,jdbcType=VARCHAR},
       startDate = #{record.startDate,jdbcType=TIMESTAMP},
       endDate = #{record.endDate,jdbcType=TIMESTAMP},
       crtTime = #{record.crtTime,jdbcType=TIMESTAMP},
       updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
-      creator = #{record.creator,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=INTEGER},
       seller = #{record.seller,jdbcType=VARCHAR},
       executor = #{record.executor,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
       parentId = #{record.parentId,jdbcType=BIGINT},
+      imgUrl = #{record.imgUrl,jdbcType=LONGVARCHAR},
       config = #{record.config,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -341,13 +341,12 @@
       taskNo = #{record.taskNo,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       taskName = #{record.taskName,jdbcType=VARCHAR},
-      desc = #{record.desc,jdbcType=VARCHAR},
-      imgUrl = #{record.imgUrl,jdbcType=VARCHAR},
+      taskDesc = #{record.taskDesc,jdbcType=VARCHAR},
       startDate = #{record.startDate,jdbcType=TIMESTAMP},
       endDate = #{record.endDate,jdbcType=TIMESTAMP},
       crtTime = #{record.crtTime,jdbcType=TIMESTAMP},
       updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
-      creator = #{record.creator,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=INTEGER},
       seller = #{record.seller,jdbcType=VARCHAR},
       executor = #{record.executor,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
@@ -368,11 +367,8 @@
       <if test="taskName != null" >
         taskName = #{taskName,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null" >
-        desc = #{desc,jdbcType=VARCHAR},
-      </if>
-      <if test="imgUrl != null" >
-        imgUrl = #{imgUrl,jdbcType=VARCHAR},
+      <if test="taskDesc != null" >
+        taskDesc = #{taskDesc,jdbcType=VARCHAR},
       </if>
       <if test="startDate != null" >
         startDate = #{startDate,jdbcType=TIMESTAMP},
@@ -387,7 +383,7 @@
         updateTime = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="creator != null" >
-        creator = #{creator,jdbcType=VARCHAR},
+        creator = #{creator,jdbcType=INTEGER},
       </if>
       <if test="seller != null" >
         seller = #{seller,jdbcType=VARCHAR},
@@ -401,6 +397,9 @@
       <if test="parentId != null" >
         parentId = #{parentId,jdbcType=BIGINT},
       </if>
+      <if test="imgUrl != null" >
+        imgUrl = #{imgUrl,jdbcType=LONGVARCHAR},
+      </if>
       <if test="config != null" >
         config = #{config,jdbcType=LONGVARCHAR},
       </if>
@@ -412,17 +411,17 @@
     set taskNo = #{taskNo,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       taskName = #{taskName,jdbcType=VARCHAR},
-      desc = #{desc,jdbcType=VARCHAR},
-      imgUrl = #{imgUrl,jdbcType=VARCHAR},
+      taskDesc = #{taskDesc,jdbcType=VARCHAR},
       startDate = #{startDate,jdbcType=TIMESTAMP},
       endDate = #{endDate,jdbcType=TIMESTAMP},
       crtTime = #{crtTime,jdbcType=TIMESTAMP},
       updateTime = #{updateTime,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=INTEGER},
       seller = #{seller,jdbcType=VARCHAR},
       executor = #{executor,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       parentId = #{parentId,jdbcType=BIGINT},
+      imgUrl = #{imgUrl,jdbcType=LONGVARCHAR},
       config = #{config,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -431,13 +430,12 @@
     set taskNo = #{taskNo,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       taskName = #{taskName,jdbcType=VARCHAR},
-      desc = #{desc,jdbcType=VARCHAR},
-      imgUrl = #{imgUrl,jdbcType=VARCHAR},
+      taskDesc = #{taskDesc,jdbcType=VARCHAR},
       startDate = #{startDate,jdbcType=TIMESTAMP},
       endDate = #{endDate,jdbcType=TIMESTAMP},
       crtTime = #{crtTime,jdbcType=TIMESTAMP},
       updateTime = #{updateTime,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=INTEGER},
       seller = #{seller,jdbcType=VARCHAR},
       executor = #{executor,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},

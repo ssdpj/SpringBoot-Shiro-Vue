@@ -2,7 +2,7 @@ package com.heeexy.example.config.exception;
 
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.util.CommonUtil;
-import com.heeexy.example.util.constants.ErrorEnum;
+import com.heeexy.example.util.constants.CommonEnum;
 
 /**
  * @author: hxy
@@ -20,7 +20,7 @@ public class CommonJsonException extends RuntimeException {
      *
      * @param errorEnum 以错误的ErrorEnum做参数
      */
-    public CommonJsonException(ErrorEnum errorEnum) {
+    public CommonJsonException(CommonEnum errorEnum) {
         this.resultJson = CommonUtil.errorJson(errorEnum);
     }
 

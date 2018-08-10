@@ -49,6 +49,7 @@
         </javaClientGenerator>
         <table tableName="task" domainObjectName="Task">
             <property name="useActualColumnNames" value="true"/>
+            <columnOverride column="imgUrl" javaType="java.lang.String"/>
             <columnOverride column="config" javaType="java.lang.String"/>
         </table>
 

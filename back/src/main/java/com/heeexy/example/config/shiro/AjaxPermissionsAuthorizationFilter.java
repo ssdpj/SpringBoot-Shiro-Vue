@@ -1,7 +1,7 @@
 package com.heeexy.example.config.shiro;
 
 import com.alibaba.fastjson.JSONObject;
-import com.heeexy.example.util.constants.ErrorEnum;
+import com.heeexy.example.util.constants.CommonEnum;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +21,8 @@ public class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("returnCode", ErrorEnum.E_20011.getErrorCode());
-        jsonObject.put("returnMsg", ErrorEnum.E_20011.getErrorMsg());
+        jsonObject.put("code", CommonEnum.LOGIN_EXPIRED.getCode());
+        jsonObject.put("msg", CommonEnum.LOGIN_EXPIRED.getMsg());
         PrintWriter out = null;
         HttpServletResponse res = (HttpServletResponse) response;
         try {

@@ -11,9 +11,7 @@ public class Task {
 
     private String taskName;
 
-    private String desc;
-
-    private String imgUrl;
+    private String taskDesc;
 
     private Date startDate;
 
@@ -23,7 +21,7 @@ public class Task {
 
     private Date updateTime;
 
-    private String creator;
+    private Integer creator;
 
     private String seller;
 
@@ -32,6 +30,8 @@ public class Task {
     private Integer status;
 
     private Long parentId;
+
+    private String imgUrl;
 
     private String config;
 
@@ -67,20 +67,12 @@ public class Task {
         this.taskName = taskName == null ? null : taskName.trim();
     }
 
-    public String getDesc() {
-        return desc;
+    public String getTaskDesc() {
+        return taskDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl == null ? null : imgUrl.trim();
+    public void setTaskDesc(String taskDesc) {
+        this.taskDesc = taskDesc == null ? null : taskDesc.trim();
     }
 
     public Date getStartDate() {
@@ -115,12 +107,12 @@ public class Task {
         this.updateTime = updateTime;
     }
 
-    public String getCreator() {
+    public Integer getCreator() {
         return creator;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator == null ? null : creator.trim();
+    public void setCreator(Integer creator) {
+        this.creator = creator;
     }
 
     public String getSeller() {
@@ -153,6 +145,14 @@ public class Task {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl == null ? null : imgUrl.trim();
     }
 
     public String getConfig() {

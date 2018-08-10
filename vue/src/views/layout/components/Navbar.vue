@@ -2,6 +2,7 @@
   <el-menu class="navbar" mode="horizontal">
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
     <breadcrumb></breadcrumb>
+    <lang-select class="lang-container"></lang-select>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
         <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
@@ -14,7 +15,7 @@
           </el-dropdown-item>
         </router-link>
         <el-dropdown-item divided>
-          <span @click="logout" style="display:block;">LogOut</span>
+          <span @click="logout" style="display:block;">{{$t('navbar.logOut')}}</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -25,11 +26,13 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import LangSelect from '@/components/LangSelect'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    LangSelect
   },
   computed: {
     ...mapGetters([
@@ -66,6 +69,11 @@ export default {
     right: 90px;
     top: 16px;
     color: red;
+  }
+  .lang-container {
+     display: inline-block;
+    position: absolute;
+    right: 70px;
   }
   .avatar-container {
     height: 50px;

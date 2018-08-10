@@ -19,12 +19,9 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   response => {
     const res = response.data;
-    if (res.code == '1000') {
-      return res;
-    }
-    if (res.code == '100') {
+    if (res.code == '0000') {
       return res.data;
-    } else if (res.code == "20011") {
+    }else if (res.code == "7000") {
       Message({
         showClose: true,
         message: res.msg,

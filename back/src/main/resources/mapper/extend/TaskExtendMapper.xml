@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heeexy.example.mapper.extend.TaskExtendMapper" >
+
+  <insert id="insertAndReturnId" parameterType="com.heeexy.example.model.Task" >
+    <selectKey resultType="java.lang.Long" order="AFTER"  keyProperty="id">
+      SELECT LAST_INSERT_ID() id
+    </selectKey>
+    insert into task (id, taskNo, type, 
+      taskName, taskDesc, startDate, 
+      endDate, crtTime, updateTime, 
+      creator, seller, executor, 
+      status, parentId, imgUrl, 
+      config)
+    values (#{id,jdbcType=BIGINT}, #{taskNo,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{taskName,jdbcType=VARCHAR}, #{taskDesc,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{crtTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{seller,jdbcType=VARCHAR}, #{executor,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT}, #{imgUrl,jdbcType=LONGVARCHAR}, 
+      #{config,jdbcType=LONGVARCHAR})
+  </insert>
+
+</mapper>

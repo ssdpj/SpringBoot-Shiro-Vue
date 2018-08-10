@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.dao.UserDao;
 import com.heeexy.example.service.UserService;
 import com.heeexy.example.util.CommonUtil;
-import com.heeexy.example.util.constants.ErrorEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
     public JSONObject addUser(JSONObject jsonObject) {
         int exist = userDao.queryExistUsername(jsonObject);
         if (exist > 0) {
-            return CommonUtil.errorJson(ErrorEnum.E_10009);
+            return CommonUtil.errorJsonWithMessage("用户已存在");
         }
         userDao.addUser(jsonObject);
         return CommonUtil.successJson();
@@ -198,7 +197,7 @@ public class UserServiceImpl implements UserService {
         JSONObject roleInfo = userDao.getRoleAllInfo(jsonObject);
         List<JSONObject> users = (List<JSONObject>) roleInfo.get("users");
         if (users != null && users.size() > 0) {
-            return CommonUtil.errorJson(ErrorEnum.E_10008);
+            return CommonUtil.errorJsonWithMessage("删除失败");
         }
         userDao.removeRole(jsonObject);
         userDao.removeRoleAllPermission(jsonObject);
