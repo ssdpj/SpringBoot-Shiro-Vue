@@ -1,6 +1,11 @@
 export default {
     route: {
       dashboard: '首页',
+      function_model: '功能',
+      article:'文章',
+      user_permission: '用户权限',
+      user_list: '用户列表',
+      permission: '权限',
       i18n: '国际化'
     },
     navbar: {

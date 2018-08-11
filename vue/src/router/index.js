@@ -14,9 +14,10 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/dashboard',
     name: 'dashboard',
-    hidden: true,
     children: [{
-      path: 'dashboard', component: _import('dashboard/index')
+      path: 'dashboard', component: _import('dashboard/index'),
+      name: 'dashboard',
+      meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
     }]
   }
 ]
@@ -30,14 +31,14 @@ export const asyncRouterMap = [
     path: '/system',
     component: Layout,
     redirect: '/system/article',
-    name: '功能模块',
-    meta: {title: '功能模块', icon: 'tree'},
+    name: 'function_model',
+    meta: {title: 'function_model', icon: 'tree'},
     children: [
       {
         path: 'article',
-        name: '文章',
+        name: 'article',
         component: _import('article/article'),
-        meta: {title: '文章', icon: 'example'},
+        meta: {title: 'article', icon: 'example'},
         menu: 'article'
       },
     ]
@@ -46,17 +47,17 @@ export const asyncRouterMap = [
     path: '/user',
     component: Layout,
     redirect: '/user/',
-    name: '',
-    meta: {title: '用户权限', icon: 'table'},
+    name: 'user_permission',
+    meta: {title: 'user_permission', icon: 'table'},
     children: [
       {
-        path: '', name: '用户列表', component: _import('user/user'), meta: {title: '用户列表', icon: 'user'}, menu: 'user'
+        path: '', name: 'user_list', component: _import('user/user'), meta: {title: 'user_list', icon: 'user'}, menu: 'user'
       },
       {
         path: 'role',
-        name: '权限管理',
+        name: 'permission',
         component: _import('user/role'),
-        meta: {title: '权限管理', icon: 'password'},
+        meta: {title: 'permission', icon: 'password'},
         menu: 'role'
       },
     ]
