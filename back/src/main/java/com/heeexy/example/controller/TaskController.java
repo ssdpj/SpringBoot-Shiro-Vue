@@ -1,8 +1,9 @@
 package com.heeexy.example.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.heeexy.example.util.CommonUtil;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.heeexy.example.request.TaskAddRequest;
+import com.heeexy.example.response.BaseResponse;
+import com.heeexy.example.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/task")
 public class TaskController {
 
+    @Autowired
+    private TaskService taskService;
 
     @PostMapping("/commit")
-    public JSONObject addArticle(@RequestBody JSONObject requestJson) {
-        CommonUtil.hasAllRequired(requestJson, "content");
-        return null;
+    public BaseResponse addArticle(@RequestBody TaskAddRequest request) {
+        return taskService.taskCommit(request);
     }
 
 }
